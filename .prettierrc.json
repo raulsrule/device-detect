@@ -1,0 +1,7 @@
+{
+    "$schema": "http://json.schemastore.org/prettierrc",
+    "arrowParens": "avoid",
+    "jsxSingleQuote": true,
+    "quoteProps": "as-needed",
+    "singleQuote": true
+}
