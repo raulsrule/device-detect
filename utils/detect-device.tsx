@@ -42,12 +42,8 @@ export default function detectDevice(
     legacyUserAgent: get('user-agent'),
   };
   const { legacyUserAgent, mobile } = deviceInfo;
-  if (legacyUserAgent) {
-    detectionMode = 'legacy';
-    const isIOS = /iP(hone|(o|a)d)/.test(legacyUserAgent);
-    const isAndroid = /Android/.test(legacyUserAgent);
-    isMobile = isIOS || isAndroid;
-  } else if (mobile && typeof mobile === 'string') {
+  if (mobile && typeof mobile === 'string') {
+    // client hint detection
     detectionMode = 'clientHint';
     const acceptedValues = ['1', '?1', '?mobile1'];
     isMobile = [
@@ -56,6 +52,12 @@ export default function detectDevice(
       /^\?(mobile\d{1})$/,
       /^\?(?<mobile>\d{1})$/, // named groups are not supported by every underlying runtime environment/platform
     ].some(s => acceptedValues.includes(s.exec(mobile)?.[0]));
+  } else if (legacyUserAgent) {
+    // user agent detection
+    detectionMode = 'legacy';
+    const isIOS = /iP(hone|(o|a)d)/.test(legacyUserAgent);
+    const isAndroid = /Android/.test(legacyUserAgent);
+    isMobile = isIOS || isAndroid;
   } else {
     isMobile = false;
   }
